@@ -16,6 +16,15 @@ Android 14 made ongoing notifications swipe-dismissible. This workaround restore
 
 *These are official downloads from [Android Developer Platform Tools](https://developer.android.com/tools/releases/platform-tools).*
 
+## Web Interface
+
+Prefer a graphical interface? Use our [interactive web tool](https://ramhaidar.github.io/Restore-Persistent-Notifs-Android-14-Above/) that provides the same ADB commands with copy buttons and a modern UI.
+
+This is especially useful for:
+- Users new to ADB commands
+- Mobile device users
+- Quick access to all command variations
+
 ## One-liner: all third-party apps (user 0)
 
 **macOS/Linux**
