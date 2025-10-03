@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restore Persistent Notifications - Android 14/15</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>">
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Restore Persistent</span>
+                    <br>
+                    <span class="hero-subtitle">Notifications</span>
+                </h1>
+                <p class="hero-description">
+                    Bring back the pre-Android 14 behavior where ongoing notifications stay put.
+                    Restore non-dismissible persistent notifications on Android 14 and 15 with a simple ADB command.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#quick-start" class="btn btn-primary">Get Started</a>
+                    <a href="https://github.com/ramhaidar/Restore-Persistent-Notifs-Android-14-Above" class="btn btn-secondary" target="_blank">
+                        <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="notification-bar">
+                        <div class="notification persistent">
+                            <div class="app-icon">🎵</div>
+                            <div class="notification-content">
+                                <div class="app-name">Music Player</div>
+                                <div class="notification-text">Now playing: Your favorite song</div>
+                            </div>
+                            <div class="persistent-indicator">🔒</div>
+                        </div>
+                        <div class="notification dismissible">
+                            <div class="app-icon">💬</div>
+                            <div class="notification-content">
+                                <div class="app-name">Messages</div>
+                                <div class="notification-text">New message from John</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="quick-start" class="section">
+            <div class="container">
+                <h2 class="section-title">Quick Start</h2>
+                <div class="requirements-grid">
+                    <div class="requirement-card">
+                        <div class="requirement-icon">📱</div>
+                        <h3>Android 14/15</h3>
+                        <p>Device running Android 14 or 15</p>
+                    </div>
+                    <div class="requirement-card">
+                        <div class="requirement-icon">🔧</div>
+                        <h3>USB Debugging</h3>
+                        <p>Enabled in Developer Options</p>
+                    </div>
+                    <div class="requirement-card">
+                        <div class="requirement-icon">💻</div>
+                        <h3>ADB Tools</h3>
+                        <p>Android Debug Bridge installed</p>
+                    </div>
+                </div>
+
+                <div class="code-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="all-apps">All Apps</button>
+                        <button class="tab-btn" data-tab="single-app">Single App</button>
+                        <button class="tab-btn" data-tab="verify">Verify</button>
+                        <button class="tab-btn" data-tab="revert">Revert</button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="all-apps">
+                            <h3>Apply to All Third-Party Apps</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-label">macOS/Linux</span>
+                                    <button class="copy-btn" data-clipboard="mac-linux-all">Copy</button>
+                                </div>
+                                <pre><code>adb shell 'for p in $(pm list packages --user 0 -3 | cut -d: -f2); do cmd appops set --user 0 --uid "$p" SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS allow; done'</code></pre>
+                            </div>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-label">Windows PowerShell</span>
+                                    <button class="copy-btn" data-clipboard="windows-all">Copy</button>
+                                </div>
+                                <pre><code>adb shell pm list packages --user 0 -3 | % {
+  $pkg = ($_ -split ':')[1]
+  if ($pkg) { adb shell "cmd appops set --user 0 --uid $pkg SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS allow" }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="single-app">
+                            <h3>Apply to Single App</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-label">Command</span>
+                                    <button class="copy-btn" data-clipboard="single-app">Copy</button>
+                                </div>
+                                <pre><code>adb shell cmd appops set --user 0 --uid com.example.app SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS allow</code></pre>
+                            </div>
+                            <p class="note">Replace <code>com.example.app</code> with the actual package name of your app.</p>
+                        </div>
+                        <div class="tab-pane" id="verify">
+                            <h3>Verify the Setting</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-label">Command</span>
+                                    <button class="copy-btn" data-clipboard="verify">Copy</button>
+                                </div>
+                                <pre><code>adb shell cmd appops get --user 0 --uid com.example.app | grep DISMISSIBLE</code></pre>
+                            </div>
+                            <p class="note">Should show: <code>SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS: allow</code></p>
+                        </div>
+                        <div class="tab-pane" id="revert">
+                            <h3>Revert Changes</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-label">All Apps - macOS/Linux</span>
+                                    <button class="copy-btn" data-clipboard="revert-all-mac">Copy</button>
+                                </div>
+                                <pre><code>adb shell 'for p in $(pm list packages --user 0 -3 | cut -d: -f2); do cmd appops set --user 0 --uid "$p" SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS default; done'</code></pre>
+                            </div>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-label">Single App</span>
+                                    <button class="copy-btn" data-clipboard="revert-single">Copy</button>
+                                </div>
+                                <pre><code>adb shell cmd appops set --user 0 --uid com.example.app SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS default</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">How It Works</h2>
+                <div class="how-it-works">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Android 14 Change</h3>
+                        <p>Google made ongoing notifications dismissible by default to improve user experience.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Hidden App-Op</h3>
+                        <p>The system has a hidden permission that can exempt apps from this behavior.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>ADB Command</h3>
+                        <p>We use ADB to grant this permission to apps that need persistent notifications.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Restored Behavior</h3>
+                        <p>Selected apps now have non-dismissible ongoing notifications again.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Important Notes</h2>
+                <div class="notes-grid">
+                    <div class="note-card">
+                        <div class="note-icon">👤</div>
+                        <h3>User 0 Only</h3>
+                        <p>This works only for the main user (user 0). Work profiles or secondary users will throw a SecurityException.</p>
+                    </div>
+                    <div class="note-card">
+                        <div class="note-icon">🔄</div>
+                        <h3>Ongoing Notifications</h3>
+                        <p>Only apps that actually post ongoing notifications will benefit from this change.</p>
+                    </div>
+                    <div class="note-card">
+                        <div class="note-icon">📱</div>
+                        <h3>Device Dependent</h3>
+                        <p>OEM modifications may affect behavior. Test on your specific device and ROM.</p>
+                    </div>
+                    <div class="note-card">
+                        <div class="note-icon">🔄</div>
+                        <h3>Reinstall May Reset</h3>
+                        <p>Uninstalling and reinstalling an app may require re-applying the permission.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Restore Persistent Notifications</h3>
+                    <p>Android 14/15 workaround for persistent notifications</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="https://github.com/ramhaidar/Restore-Persistent-Notifs-Android-14-Above" target="_blank">GitHub Repository</a></li>
+                        <li><a href="https://developer.android.com/about/versions/14/behavior-changes-all" target="_blank">Android 14 Changes</a></li>
+                        <li><a href="https://aleksmola.github.io/2025/07/01/bring-back-pernament-notifications-android-14-15/" target="_blank">Community Reference</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Download ADB</h4>
+                    <ul>
+                        <li><a href="https://dl.google.com/android/repository/platform-tools-latest-windows.zip">Windows</a></li>
+                        <li><a href="https://dl.google.com/android/repository/platform-tools-latest-darwin.zip">macOS</a></li>
+                        <li><a href="https://dl.google.com/android/repository/platform-tools-latest-linux.zip">Linux</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Restore Persistent Notifications. MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

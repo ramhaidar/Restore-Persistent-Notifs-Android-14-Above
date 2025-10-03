@@ -1,0 +1,2 @@
+- Android 14 changed the UX so ongoing notifications can be dismissed. :contentReference[oaicite:2]{index=2}
+- The exemption uses the hidden app-op `SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS`, reported and tested by the community on Android 14/15. :contentReference[oaicite:3]{index=3}
